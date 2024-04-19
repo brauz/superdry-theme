@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html
+  lang="{{ locale }}"
+  dir="{{ direction }}"
+  class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0" />
+    {% render 'insider-checkout' %}
+    <meta name="referrer" content="origin" />
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+
+    {% render 'gtm-head' %}
+
+    <link rel="stylesheet" href="https://use.typekit.net/quv0bym.css" />
+    {{ 'sup-checkout.css' | asset_url | stylesheet_tag }}
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+      crossorigin="anonymous"></script>
+    {% render 'global-variables' %}
+  </head>
+
+  <body>
+    {% render 'gtm-body' %}
+    {{ skip_to_content_link }}
+    <div id="checkout-complete-des">{% section 'checkout-description' %}</div>
+
+    <header
+      class="banner checkout-header"
+      data-header
+      role="banner">
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </header>
+
+    {{ order_summary_toggle }}
+    <div class="content checkout-content mt-4" data-content>
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </header>
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            {% section 'checkout-footer' %}
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+            {%- if checkout.shipping_address.country_code == "NZ" -%}
+              {% section 'checkout-sidebar' %}
+            {%- endif -%}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+    <script src="{{ 'sup-checkout.js' | asset_url }}" defer="defer"></script>
+  </body>
+</html>
